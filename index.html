@@ -5,7 +5,120 @@
   </head>
   <body>
     <py-script>
-        print('Hello, World!')
+    import turtle
+    import os
+    
+    print("Welcome to Xiao Lin's Head Patter!")
+    print("Please do not close the terminal")
+    
+    if os.path.exists("pats.txt"):
+        with open("pats.txt", "r") as file:
+            pats = int(file.read())      
+    else:
+        pats = 0
+        with open("pats.txt", "w") as file:
+            file.write(str(pats))
+    
+    if os.path.exists("power.txt"):
+        with open("power.txt", "r") as file:
+            power = int(file.read())
+    else:
+        power = 1
+        with open("power.txt", "w") as file:
+            file.write(str(power))
+    
+    
+    wn = turtle.Screen()
+    wn.title("Xiao Lin's Head Patter")
+    wn.bgcolor("black")
+    wn.setup (width=700, height=700)
+    
+    wn.register_shape("xiaolin.gif")
+    
+    xiaolin = turtle.Turtle()
+    xiaolin.shape("xiaolin.gif")
+    
+    pen = turtle.Turtle()
+    pen.hideturtle()
+    pen.color("black")
+    pen.penup()
+    pen.goto(225,275)
+    pen.write(f"Pats:{pats}", align="center",font=("Courier New",32,"normal"))
+    pen2 = turtle.Turtle()
+    pen2.hideturtle()
+    pen2.color("black")
+    pen2.penup()
+    pen2.goto(-250,275)
+    pen2.write(f"Level:{power}", align="center",font=("Courier New",32,"normal"))
+    pen3 = turtle.Turtle()
+    pen3.hideturtle()
+    pen3.color("purple")
+    pen3.penup()
+    pen3.goto(-230,235)    
+    pen3.write(f"Left click to pat", align="center",font=("Courier New",15,"normal"))
+    pen4 = turtle.Turtle()
+    pen4.hideturtle()
+    pen4.color("purple")
+    pen4.penup()
+    pen4.goto(-245,190)    
+    pen4.write(f"Click Q to quit", align="center",font=("Courier New",15,"normal"))
+    pen5 = turtle.Turtle()
+    pen5.hideturtle()
+    pen5.color("purple")
+    pen5.penup()
+    pen5.goto(-220,145)    
+    pen5.write(f"Click R to reset score", align="center",font=("Courier New",13,"normal"))
+    
+    random = 0
+    
+    def patted(x,y):
+        global pats
+        global power
+        global random
+        if pats > 10**power:
+            power += 1
+            pen2.clear()
+            pen2.write(f"Level:{power}", align="center",font=("Courier New",32,"normal"))
+        
+        pats += power
+        pen.clear()
+        pen.write(f"Pats:{pats}", align="center",font=("Courier New",32,"normal"))
+        with open("pats.txt", "w") as file:
+            file.write(str(pats))
+        with open("power.txt", "w") as file:
+            file.write(str(power))
+        pen3.clear()
+        pen4.clear()
+        pen5.clear()
+        if random == 0:
+            print("\nLeft click to pat")
+            print("Click Q to quit")
+            print("Click R to reset score")
+            random = 1
+    
+            
+    def reset_score():
+        print("Press p to confirm score reset")
+        def confirm():
+            os.remove("pats.txt")
+            os.remove("power.txt")
+            turtle.bye()
+            print("Score resetted successfully")
+    
+        turtle.listen()
+        turtle.onkeypress(confirm,"p")
+        
+    xiaolin.onclick(patted)
+               
+    turtle.listen()
+    turtle.onkeypress(turtle.bye,"q")
+    turtle.onkeypress(reset_score,"r")
+    
+    
+    
+    wn.mainloop()
+
+
     </py-script>
   </body>
 </html>
